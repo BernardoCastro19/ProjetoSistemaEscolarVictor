@@ -1,12 +1,12 @@
 package br.cefetrj.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@DiscriminatorValue("PROFESSOR")
 public class Professor extends Usuario{
 
     public String diploma;
-    public Professor(Integer id, String nome, String documento, String diploma){
-        super(id,nome,documento);
-        this.diploma = diploma;
-    }
 
     //get e set
     public String getDiploma() {

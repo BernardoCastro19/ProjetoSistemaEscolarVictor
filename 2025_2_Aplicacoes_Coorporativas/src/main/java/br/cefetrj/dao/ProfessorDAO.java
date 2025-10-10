@@ -1,52 +1,66 @@
 package br.cefetrj.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import br.cefetrj.commons.ConnectionFactory;
 import br.cefetrj.model.Professor;
+import br.cefetrj.utils.HibernateUtil;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.List;
 
 public class ProfessorDAO {
 
-    private Connection con;
-
-    public ProfessorDAO() {
-        con = ConnectionFactory.getConnection();
-    }
-
-    public void inserir(Professor professor) throws SQLException {
-
-        String sql = "insert into Professor(nome,documento,diploma) values(?,?,?)";
-        PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setString(1, professor.nome);
-        stmt.setString(2, professor.documento);
-        stmt.setString(3, professor.diploma);
-        stmt.executeUpdate();
-        stmt.close();
-        con.close();
-    }
-
-    public List<Professor> listarTodos() throws SQLException {
-
-        String sql = "select id, nome, documento, diploma from Professor";
-        PreparedStatement stmt = con.prepareStatement(sql);
-
-        ResultSet rs = stmt.executeQuery();
-        Professor professor= null;
-
-        List<Professor> professores = new ArrayList<Professor>();
-        while (rs.next()) {
-            professor = new Professor(Integer.valueOf(rs.getInt("id")), rs.getString("nome"), rs.getString("documento"),rs.getString("diploma"));
-            professores.add(professor);
+    public void salvar(Professor professor) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.persist(professor); // antes: save()
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
         }
-
-        stmt.close();
-        con.close();
-        return professores;
     }
 
+    public List<Professor> listar() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("from Professor", Professor.class).list();
+        }
+    }
+
+    public void atualizar(Professor professor) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.merge(professor); // antes: update()
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void deletar(int id) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            Professor professor = session.find(Professor.class, id);
+            if (professor != null) {
+                session.remove(professor); // antes: delete()
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public Professor buscarPorId(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.find(Professor.class, id);
+        }
+    }
 }

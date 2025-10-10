@@ -29,14 +29,13 @@ public class TurmaServlet extends HttpServlet {
         Integer numeroAlunos = Integer.parseInt(request.getParameter("numeroAlunos"));
         String disciplina = request.getParameter("disciplina");
 
-        Turma turma = new Turma(null, nome, numeroAlunos, disciplina);
+        Turma turma = new Turma();
+        turma.setNome(nome);
+        turma.setNumeroAlunos(0);
+        turma.setDisciplina(disciplina);
         // Aqui você pode adicionar a turma a um banco de dados ou a uma lista
         TurmaDAO dao = new TurmaDAO();
-        try {
-            dao.inserir(turma);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dao.salvar(turma);
         RequestDispatcher rd = request.getRequestDispatcher("cadastro-sucesso.jsp");
 
         rd.forward(request, response);
@@ -47,25 +46,10 @@ public class TurmaServlet extends HttpServlet {
             throws IOException, ServletException {
         TurmaDAO dao = new TurmaDAO();
         List<Turma> turmas;
-        try {
-            turmas = dao.listarTodos();
-            request.setAttribute("turmas", turmas);
-            RequestDispatcher rd = request.getRequestDispatcher("lista-turma.jsp");
-            rd.forward(request, response);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        turmas = dao.listar();
+        request.setAttribute("turmas", turmas);
+        RequestDispatcher rd = request.getRequestDispatcher("lista-turma.jsp");
+        rd.forward(request, response);
     }
 
-    private List<Turma> criaTurmas() {
-        List<Turma> turmas = new ArrayList<>();
-        Turma turma1 = new Turma(1, "Turma 1", 20,"Matematica");
-        Turma turma2 = new Turma(2, "Turma 2",30, "Portugues");
-        Turma turma3 = new Turma(3, "Turma 3",15, "Geografia");
-        turmas.add(turma1);
-        turmas.add(turma2);
-        turmas.add(turma3);
-        return turmas;
-    }
 }

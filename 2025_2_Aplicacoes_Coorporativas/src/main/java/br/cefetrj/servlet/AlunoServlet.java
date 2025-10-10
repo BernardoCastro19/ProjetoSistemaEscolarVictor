@@ -25,7 +25,9 @@ public class AlunoServlet extends HttpServlet {
         String nome = request.getParameter("nome");
         String documento = request.getParameter("documento");
 
-        Aluno aluno = new Aluno(null, nome, documento);
+        Aluno aluno = new Aluno();
+        aluno.setNome(nome);
+        aluno.setDocumento(documento);
         // Aqui você pode adicionar o cliente a um banco de dados ou a uma lista
         AlunoDAO dao = new AlunoDAO();
         dao.salvar(aluno);
@@ -43,14 +45,4 @@ public class AlunoServlet extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private List<Aluno> criaAlunos() {
-        List<Aluno> alunos = new ArrayList<>();
-        Aluno aluno1 = new Aluno(1, "Aluno 1", "134515616");
-        Aluno aluno2 = new Aluno(2, "Aluno 2", "132251511");
-        Aluno aluno3 = new Aluno(3, "Aluno 3", "433564363");
-        alunos.add(aluno1);
-        alunos.add(aluno2);
-        alunos.add(aluno3);
-        return alunos;
-    }
 }

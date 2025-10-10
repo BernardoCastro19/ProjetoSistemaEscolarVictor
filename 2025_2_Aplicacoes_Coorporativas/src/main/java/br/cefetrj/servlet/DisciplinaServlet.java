@@ -27,14 +27,12 @@ public class DisciplinaServlet extends HttpServlet {
         String nome = request.getParameter("nome");
         Integer horas = Integer.parseInt(request.getParameter("horas"));
 
-        Disciplina disciplina = new Disciplina(null, nome, horas);
+        Disciplina disciplina = new Disciplina();
+        disciplina.setNome(nome);
+        disciplina.setHoras(0);
         // Aqui você pode adicionar o Disciplina a um banco de dados ou a uma lista
         DisciplinaDAO dao = new DisciplinaDAO();
-        try {
-            dao.inserir(disciplina);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dao.salvar(disciplina);
         RequestDispatcher rd = request.getRequestDispatcher("cadastro-sucesso.jsp");
 
         rd.forward(request, response);
@@ -45,25 +43,11 @@ public class DisciplinaServlet extends HttpServlet {
             throws IOException, ServletException {
         DisciplinaDAO dao = new DisciplinaDAO();
         List<Disciplina> disciplinas;
-        try {
-            disciplinas = dao.listarTodos();
-            request.setAttribute("disciplinas", disciplinas);
-            RequestDispatcher rd = request.getRequestDispatcher("lista-disciplinas.jsp");
-            rd.forward(request, response);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
+        disciplinas = dao.listar();
+        request.setAttribute("disciplinas", disciplinas);
+        RequestDispatcher rd = request.getRequestDispatcher("lista-disciplinas.jsp");
+        rd.forward(request, response);
     }
 
-    private List<Disciplina> criaDisciplinas() {
-        List<Disciplina> disciplinas = new ArrayList<>();
-        Disciplina disciplina1 = new Disciplina(1, "Disciplina 1",90 );
-        Disciplina disciplina2 = new Disciplina(2, "Disciplina 2", 30);
-        Disciplina disciplina3 = new Disciplina(3, "Disciplina 3", 60);
-        disciplinas.add(disciplina1);
-        disciplinas.add(disciplina2);
-        disciplinas.add(disciplina3);
-        return disciplinas;
-    }
 }

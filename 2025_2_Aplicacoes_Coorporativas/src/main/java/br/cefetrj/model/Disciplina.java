@@ -1,15 +1,12 @@
 package br.cefetrj.model;
 
-public class Disciplina {
-    public Integer id;
+import jakarta.persistence.Entity;
+
+@Entity
+public class Disciplina extends Entidade {
     public String nome;
     public Integer horas;
 
-    public Disciplina(Integer id,String nome, int horas){
-        this.id = id;
-        this.nome = nome;
-        this.horas = horas;
-    }
 
     //get e set
     public String getNome() {

@@ -28,14 +28,13 @@ public class ProfessorServlet extends HttpServlet {
         String documento = request.getParameter("documento");
         String diploma = request.getParameter("diploma");
 
-        Professor professor = new Professor(null,nome, documento, diploma);
+        Professor professor = new Professor();
+        professor.setNome(nome);
+        professor.setDocumento(documento);
+        professor.setDiploma(diploma);
         // Aqui você pode adicionar o cliente a um banco de dados ou a uma lista
         ProfessorDAO dao = new ProfessorDAO();
-        try {
-            dao.inserir(professor);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        dao.salvar(professor);
         RequestDispatcher rd = request.getRequestDispatcher("cadastro-sucesso.jsp");
 
         rd.forward(request, response);
@@ -46,25 +45,10 @@ public class ProfessorServlet extends HttpServlet {
             throws IOException, ServletException {
         ProfessorDAO dao = new ProfessorDAO();
         List<Professor> professores;
-        try {
-            professores = dao.listarTodos();
+            professores = dao.listar();
             request.setAttribute("professores", professores);
             RequestDispatcher rd = request.getRequestDispatcher("lista-professores.jsp");
             rd.forward(request, response);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
-    private List<Professor> criaProfessores() {
-        List<Professor> professores = new ArrayList<>();
-        Professor professor1 = new Professor(1, "Professor 1", "134515616","Graduado em SI");
-        Professor professor2 = new Professor(2, "Professor 2", "132251511","Mestrado em Fisica");
-        Professor professor3 = new Professor(3, "Professor 3", "433564363","Graduado em ADS");
-        professores.add(professor1);
-        professores.add(professor2);
-        professores.add(professor3);
-        return professores;
-    }
 }
