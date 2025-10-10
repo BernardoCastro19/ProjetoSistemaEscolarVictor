@@ -1,53 +1,19 @@
 package br.cefetrj.servlet;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import br.cefetrj.dao.AlunoDAO;
-import br.cefetrj.dao.DisciplinaDAO;
-import br.cefetrj.model.Usuario;
-import br.cefetrj.model.Aluno;
 import br.cefetrj.model.Disciplina;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import br.cefetrj.servlet.GenericServlet;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/Disciplina")
-public class DisciplinaServlet extends HttpServlet {
-     private static final long serialVersionUID = 3L;
+public class DisciplinaServlet extends GenericServlet<Disciplina> {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-
-        String nome = request.getParameter("nome");
-        Integer horas = Integer.parseInt(request.getParameter("horas"));
-
+    @Override
+    protected Disciplina preencherEntidade(HttpServletRequest request) {
         Disciplina disciplina = new Disciplina();
-        disciplina.setNome(nome);
-        disciplina.setHoras(0);
-        // Aqui você pode adicionar o Disciplina a um banco de dados ou a uma lista
-        DisciplinaDAO dao = new DisciplinaDAO();
-        dao.salvar(disciplina);
-        RequestDispatcher rd = request.getRequestDispatcher("cadastro-sucesso.jsp");
-
-        rd.forward(request, response);
-
+        disciplina.setId(request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) : 0);
+        disciplina.setNome(request.getParameter("nome"));
+        disciplina.setHoras( Integer.parseInt(request.getParameter("horas")));
+        return disciplina;
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
-        DisciplinaDAO dao = new DisciplinaDAO();
-        List<Disciplina> disciplinas;
-        
-        disciplinas = dao.listar();
-        request.setAttribute("disciplinas", disciplinas);
-        RequestDispatcher rd = request.getRequestDispatcher("lista-disciplinas.jsp");
-        rd.forward(request, response);
-    }
-
 }

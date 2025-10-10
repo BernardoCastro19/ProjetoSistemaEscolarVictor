@@ -19,7 +19,7 @@ public class Entidade {
 
     private LocalDate dataCriacao;
     @Column(nullable = true)
-    private LocalDate dataUltimaAlteração;
+    private LocalDate dataUltimaAlteracao;
     @ManyToOne
     private Usuario criadoPor;
     @ManyToOne(optional = true)
@@ -35,8 +35,8 @@ public class Entidade {
     public LocalDate getDataCriacao() {
         return dataCriacao;
     }
-    public LocalDate getDataUltimaAlteração() {
-        return dataUltimaAlteração;
+    public LocalDate getDataUltimaAlteracao() {
+        return dataUltimaAlteracao;
     }
     public Integer getId() {
         return id;
@@ -51,8 +51,8 @@ public class Entidade {
     public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
-    public void setDataUltimaAlteração(LocalDate dataUltimaAlteração) {
-        this.dataUltimaAlteração = dataUltimaAlteração;
+    public void setDataUltimaAlteracao(LocalDate dataUltimaAlteração) {
+        this.dataUltimaAlteracao = dataUltimaAlteração;
     }
     public void setId(Integer id) {
         this.id = id;

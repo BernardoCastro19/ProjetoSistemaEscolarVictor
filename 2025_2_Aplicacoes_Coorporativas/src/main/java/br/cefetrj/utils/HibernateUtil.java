@@ -3,6 +3,8 @@ package br.cefetrj.utils;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import jakarta.persistence.EntityManager;
+
 public class HibernateUtil {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -20,5 +22,9 @@ public class HibernateUtil {
 
     public static void shutdown() {
         getSessionFactory().close();
+    }
+
+    public static EntityManager getEntityManager() {
+        return null;
     }
 }
