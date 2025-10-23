@@ -3,27 +3,21 @@ package br.cefetrj.model;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo")
-public class Usuario extends Entidade{
+@Table(name = "usuarios")
+public class Usuario extends Pessoa {
 
-    @Column(name = "nome")
-    public String nome;
-    @Column(name = "documento")
-    public String documento;
+    private String email;
+    private String senha;
+    private boolean ativo;
+    private String papel; // e.g., "ADMIN", "USER"
 
+    // Getters e Setters
 
-    //get e set
-    public String getNome() {
-        return nome;
+    public String getEmail() {
+        return email;
     }
-    public String getDocumento() {
-        return documento;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public void setDocumento(String documento) {
-        this.documento = documento;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

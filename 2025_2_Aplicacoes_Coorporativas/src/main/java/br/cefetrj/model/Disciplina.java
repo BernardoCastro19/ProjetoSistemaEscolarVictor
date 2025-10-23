@@ -1,8 +1,10 @@
 package br.cefetrj.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "disciplina")
 public class Disciplina extends Entidade {
     public String nome;
     public Integer horas;

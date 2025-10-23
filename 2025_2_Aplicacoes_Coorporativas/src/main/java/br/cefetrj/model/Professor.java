@@ -3,8 +3,8 @@ package br.cefetrj.model;
 import jakarta.persistence.*;
 
 @Entity
-@DiscriminatorValue("PROFESSOR")
-public class Professor extends Usuario{
+@Table(name = "professor")
+public class Professor extends Pessoa{
 
     public String diploma;
 

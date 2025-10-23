@@ -1,11 +1,13 @@
 package br.cefetrj.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "turma")
 public class Turma extends Entidade {
     public String nome;
-    public Integer numeroAlunos;
+    public int numeroAlunos;
     public String disciplina;
 
 
