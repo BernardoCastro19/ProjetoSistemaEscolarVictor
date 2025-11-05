@@ -39,8 +39,8 @@ public class BibliotecaApplication extends SpringBootServletInitializer {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(false);
-        config.addAllowedOrigin("http://localhost:81");
-        config.addAllowedOrigin("http://127.0.0.1:81");
+        config.addAllowedOrigin("http://localhost:80");
+        config.addAllowedOrigin("http://12.34.56.78:80");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*"); // Permite todos os métodos
 

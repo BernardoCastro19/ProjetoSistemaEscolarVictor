@@ -4,9 +4,9 @@
 xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Repository -->
-    <bean id="pedidoRepository" class="br.cefetrj.repository.PedidoRepository" />
+    <bean id="alunoRepository" class="br.cefetrj.repository.AlunoRepository" />
     <!-- Service com injeção via construtor -->
-    <bean id="pedidoService" class="br.cefetrj.service.PedidoService">
-            <constructor-arg ref="pedidoRepository"/>
+    <bean id="alunoService" class="br.cefetrj.service.AlunoService">
+            <constructor-arg ref="alunoRepository"/>
     </bean>
 </beans>
