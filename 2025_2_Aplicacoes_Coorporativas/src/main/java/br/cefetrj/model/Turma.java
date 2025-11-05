@@ -6,9 +6,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "turma")
 public class Turma extends Entidade {
-    public String nome;
-    public int numeroAlunos;
-    public String disciplina;
+    private String nome;
+    private int numeroAlunos;
+    private String disciplina;
 
 
     //get e set
