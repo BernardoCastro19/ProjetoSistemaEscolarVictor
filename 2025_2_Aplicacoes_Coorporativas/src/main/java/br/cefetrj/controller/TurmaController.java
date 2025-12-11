@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,9 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/turmas", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(value = "/turmas", tags = { "Turmas - TurmaController" })
+@Api(value = "/turmas", tags = { "turmas - TurmaController" })
 public class TurmaController {
+
     private final TurmaService turmaService;
 
     @Autowired
@@ -35,6 +37,7 @@ public class TurmaController {
 
     @PostMapping
     @ApiOperation(value = "Salvar registro", notes = "Salva um novo registro no banco de dados")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TurmaTOOutput> save(@RequestBody TurmaTOInput input) {
         final var turma = input;
 
@@ -58,7 +61,6 @@ public class TurmaController {
     public ResponseEntity<TurmaTOOutput> findById(@PathVariable("id") Integer id) {
 
         return ResponseEntity.ok(turmaService.findById(id).map(TurmaTOOutput::new).orElse(null));
-
     }
 
     @GetMapping
@@ -66,7 +68,6 @@ public class TurmaController {
     public ResponseEntity<List<TurmaTOOutput>> findAll() {
 
         return ResponseEntity.ok(turmaService.findAll().stream().map(TurmaTOOutput::new).toList());
-
     }
 
     @DeleteExchange("/{id}")
@@ -75,6 +76,5 @@ public class TurmaController {
 
         turmaService.delete(id);
         return ResponseEntity.noContent().build();
-
     }
 }
